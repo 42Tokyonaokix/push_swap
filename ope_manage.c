@@ -5,114 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 16:11:09 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/31 17:08:38 by natakaha         ###   ########.fr       */
+/*   Created: 2025/11/04 14:43:02 by natakaha          #+#    #+#             */
+/*   Updated: 2025/11/04 17:13:44 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	operation_manage(t_node **stack_a, t_node **stack_b, size_t func)
+int	turk_insert_module(t_node **sa, t_node **sb, int na, int nb)
 {
-	if (func == 0)
-		return ;
-	else if (func == 1)
-		swap_sa(stack_a, stack_b);
-	else if (func == 2)
-		swap_sb(stack_a, stack_b);
-	else if (func == 3)
-		swap_ss(stack_a, stack_b);
-	else if (func == 4)
-		push_a(stack_a, stack_b);
-	else if (func == 5)
-		push_b(stack_a, stack_b);
-	else if (func == 6)
-		rotate_ra(stack_a, stack_b);
-	else if (func == 7)
-		rotate_rb(stack_a, stack_b);
-	else if (func == 8)
-		rotate_rr(stack_a, stack_b);
-	else if (func == 9)
-		rotate_rra(stack_a, stack_b);
-	else if (func == 10)
-		rotate_rrb(stack_a, stack_b);
-	else if (func == 11)
-		rotate_rrr(stack_a, stack_b);
-}
+	int				rna;
+	int				rnb;
 
-size_t	detect_function(char *display)
-{
-	if (!ft_strcmp(display, "sa\n"))
-		return (1);
-	else if (!ft_strcmp(display, "sb\n"))
+	rna = ft_listsize(*sa) - na;
+	rnb = ft_listsize(*sb) - nb;
+	if (na == INT_MIN)
 		return (2);
-	else if (!ft_strcmp(display, "ss\n"))
-		return (3);
-	else if (!ft_strcmp(display, "pa\n"))
-		return (4);
-	else if (!ft_strcmp(display, "pb\n"))
-		return (5);
-	else if (!ft_strcmp(display, "ra\n"))
-		return (6);
-	else if (!ft_strcmp(display, "rb\n"))
-		return (7);
-	else if (!ft_strcmp(display, "rr\n"))
-		return (8);
-	else if (!ft_strcmp(display, "rra\n"))
-		return (9);
-	else if (!ft_strcmp(display, "rrb\n"))
-		return (10);
-	else if (!ft_strcmp(display, "rrr\n"))
-		return (11);
-	else if (!display)
-		return (12);
-	return (0);
+	if (((na >= nb && na <= rna) || (nb >= na && nb <= rnb)) && na * nb > 0)
+		rotate_rr(sa, sb);
+	else if (((rna >= rnb && rna <= na)
+			|| (rnb >= rna && rnb <= nb)) && na * nb > 0)
+		rotate_rrr(sa, sb);
+	else if ((nb == 0 || nb - na > rnb) && na <= rna && na > 0)
+		rotate_ra(sa, sb);
+	else if ((nb == 0 || nb <= rnb - rna) && na > rna && na > 0)
+		rotate_rra(sa, sb);
+	else if ((na == 0 || na - nb > rna) && nb <= rnb && nb > 0)
+		rotate_rb(sa, sb);
+	else if ((na == 0 || na <= rna - rnb) && nb > rnb && nb > 0)
+		rotate_rrb(sa, sb);
+	else if (na == 0 && nb == 0)
+		push_b(sa, sb);
+	else
+		return (0);
+	return (1);
 }
 
-//#include <stdio.h>
+int	turk_insert(t_node **sa, t_node **sb)
+{
+	int				na;
+	int				nb;
 
-//void	print_stack(char c, t_node *front)
-//{
-//	t_node	*tmp;
+	na = find_cheapest(*sa, *sb);
+	nb = rotate_to_insert(*sb, locate_to_index(*sa, na));
+	return (turk_insert_module(sa, sb, na, nb));
+}
 
-//	if (!front)
-//	{
-//		printf("%c size: %u\n", c, ft_listsize(front));
-//		printf("list: None\n");
-//		return ;
-//	}
-//	tmp = front;
-//	printf("%c size:  %u\n", c, ft_listsize(front));
-//	printf("list:  %3d,", tmp->value);
-//	tmp = tmp->after;
-//	while (tmp != front)
-//	{
-//		printf("%3d,", tmp->value);
-//		tmp = tmp->after;
-//	}
-//	printf("\n\n");
-//}
+int	reverse_insert_module(t_node **sa, t_node **sb, int na, int nb)
+{
+	int				la;
+	int				lb;
 
-//int	main(int argc, char **argv)
-//{
-//	t_node		*afront;
-//	t_node		*bfront;
+	lb = (int)ft_listsize(*sb);
+	la = (int)ft_listsize(*sa);
+	if (!*sb)
+		return (2);
+	else if (nb >= lb - nb && nb > 0 && na >= la - na && na > 0)
+		rotate_rr(sa, sb);
+	else if (nb <= lb - nb && nb > 0 && na <= la - na && na > 0)
+		rotate_rrr(sa, sb);
+	else if (nb <= lb - nb && nb > 0 && (na == 0 || na > la - na))
+		rotate_rb(sa, sb);
+	else if (nb > lb - nb && nb > 0 && na == 0)
+		rotate_rrb(sa, sb);
+	else if (na <= la - na && na > 0 && (nb == 0 || nb > lb - nb))
+		rotate_ra(sa, sb);
+	else if (na > la - na && na > 0 && nb == 0)
+		rotate_rra(sa, sb);
+	else if (nb == 0 && na == 0)
+		push_a(sa, sb);
+	else
+		return (0);
+	return (1);
+}
 
-//	afront = NULL;
-//	bfront = NULL;
-//	afront = make_value_argone(&argv[1], afront);
-//	afront = make_index(afront);
-//	bfront = make_value_argone(&argv[2], bfront);
-//	bfront = make_index(bfront);
-//	if (!afront && !bfront)
-//		return (printf("Error\n"));
-//	print_stack('a', afront);
-//	print_stack('b', bfront);
-//	printf("\n\n");
-//	read_stdin(&afront, &bfront);
-//	printf("\n\n");
-//	print_stack('a', afront);
-//	print_stack('b', bfront);
-//	(void)argc;
-//	(void)argv;
-//}
+int	reverse_insert(t_node **sa, t_node **sb)
+{
+	unsigned int	max;
+	int				nb;
+	int				na;
+	int				d;
+	int				la;
+
+	max = find_largest(*sb);
+	nb = find_chunk(*sb, max, max);
+	na = rotate_to_reverse(*sa, max);
+	d = reverse_insert_module(sa, sb, na, nb);
+	if (!d)
+		return (0);
+	if (d == 1)
+		return (1);
+	la = ft_listsize(*sa);
+	na = find_chunk(*sa, 1, 1);
+	if (na <= la - na && na > 0)
+		rotate_ra(sa, sb);
+	else if (na > la - na && na > 0)
+		rotate_rra(sa, sb);
+	else if (na == 0)
+		return (2);
+	return (1);
+}

@@ -6,95 +6,71 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 05:48:08 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/31 12:50:52 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/01 22:06:48 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	atol_check(char *nptr)
+int	count_number(char *str)
 {
-	int	count;
+	int	n;
 
-	count = 0;
-	if (!nptr || !*nptr)
+	n = 0;
+	if (!str || !*str)
 		return (false);
-	while (*nptr)
+	while (*str)
 	{
-		while (*nptr == ' ' || (9 <= *nptr && *nptr <= 13))
-			nptr++;
-		if (*nptr == '+' || *nptr == '-')
-			nptr++;
-		if ('0' > *nptr || *nptr > '9')
+		while (*str == ' ' || (9 <= *str && *str <= 13))
+			str++;
+		if (*str == '+' || *str == '-')
+			str++;
+		if ('0' > *str || *str > '9')
 			return (false);
 		else
-			count++;
-		while ('0' <= *nptr && *nptr <= '9')
-			nptr++;
-		while (*nptr == ' ' || (9 <= *nptr && *nptr <= 13))
-			nptr++;
+			n++;
+		while ('0' <= *str && *str <= '9')
+			str++;
+		while (*str == ' ' || (9 <= *str && *str <= 13))
+			str++;
 	}
-	return (count);
+	return (n);
 }
 
 /* treat LONG_MIN as Errno*/
 
 long long	ft_atol(char **str)
 {
-	long long		n;
+	long long		num;
 	int				sign;
 
-	sign = 1;
 	if (!str || !*str || !**str)
 		return (LONG_MIN);
 	while (**str == ' ' || (9 <= **str && **str <= 13))
 		(*str)++;
+	sign = 1;
 	if (**str == '+' || **str == '-' )
 	{
 		if (**str == '-')
 			sign = -1;
 		(*str)++;
 	}
-	n = 0;
+	num = 0;
 	while ('0' <= **str && **str <= '9')
 	{
-		n = n * 10 + (**str - '0');
-		if (INT_MIN > n || INT_MAX < n)
+		num = num * 10 + (**str - '0');
+		if (INT_MIN > num || INT_MAX < num)
 			return (LONG_MIN);
 		(*str)++;
 	}
 	while (**str == ' ' || (9 <= **str && **str <= 13))
 		(*str)++;
-	return (n * sign);
+	return (num * sign);
 }
 
-size_t	count_words(char const *s)
+unsigned int	ft_strlen(const char *s)
 {
-	size_t	i;
-	size_t	count;
-	char	c;
-
-	count = 0;
-	i = 0;
-	c = ' ';
-	while (s[i])
-	{
-		while (s[i] && s[i] == c)
-			i++;
-		if (s[i] != c && s[i])
-		{
-			i++;
-			count++;
-		}
-		while (s[i] && s[i] != c)
-			i++;
-	}
-	return (count);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+	unsigned int	i;
 
 	i = 0;
 	if (!s || !*s)
@@ -110,7 +86,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 	i = 0;
 	if (!s1 || !s2)
-		return (-1);
+		return (INT_MIN);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])

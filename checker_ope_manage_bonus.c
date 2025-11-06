@@ -6,125 +6,127 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:11:09 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/31 04:51:00 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:23:05 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_push_swap_bonus.h"
 #include "push_swap.h"
 
-bool	checker_operation_manage(t_node **afront, t_node **bfront, size_t func)
+//size_t	detect_function(char *display)
+//{
+//	if (!ft_strcmp(display, "sa\n"))
+//		return (1);
+//	else if (!ft_strcmp(display, "sb\n"))
+//		return (2);
+//	else if (!ft_strcmp(display, "ss\n"))
+//		return (3);
+//	else if (!ft_strcmp(display, "pa\n"))
+//		return (4);
+//	else if (!ft_strcmp(display, "pb\n"))
+//		return (5);
+//	else if (!ft_strcmp(display, "ra\n"))
+//		return (6);
+//	else if (!ft_strcmp(display, "rb\n"))
+//		return (7);
+//	else if (!ft_strcmp(display, "rr\n"))
+//		return (8);
+//	else if (!ft_strcmp(display, "rra\n"))
+//		return (9);
+//	else if (!ft_strcmp(display, "rrb\n"))
+//		return (10);
+//	else if (!ft_strcmp(display, "rrr\n"))
+//		return (11);
+//	else if (!display)
+//		return (12);
+//	return (0);
+//}
+
+bool	checker_operation_manage(t_node **sa, t_node **sb, char *display)
 {
-	if (func == 0)
+	if (!ft_strcmp(display, "sa\n"))
+		checker_swap_sa(sa, sb);
+	else if (!ft_strcmp(display, "sb\n"))
+		checker_swap_sb(sa, sb);
+	else if (!ft_strcmp(display, "ss\n"))
+		checker_swap_ss(sa, sb);
+	else if (!ft_strcmp(display, "pa\n"))
+		checker_push_a(sa, sb);
+	else if (!ft_strcmp(display, "pb\n"))
+		checker_push_b(sa, sb);
+	else if (!ft_strcmp(display, "ra\n"))
+		checker_rotate_ra(sa, sb);
+	else if (!ft_strcmp(display, "rb\n"))
+		checker_rotate_rb(sa, sb);
+	else if (!ft_strcmp(display, "rr\n"))
+		checker_rotate_rr(sa, sb);
+	else if (!ft_strcmp(display, "rra\n"))
+		checker_rotate_rra(sa, sb);
+	else if (!ft_strcmp(display, "rrb\n"))
+		checker_rotate_rrb(sa, sb);
+	else if (!ft_strcmp(display, "rrr\n"))
+		checker_rotate_rrr(sa, sb);
+	else
 		return (false);
-	else if (func == 1)
-		checker_swap_sa(afront, bfront);
-	else if (func == 2)
-		checker_swap_sb(afront, bfront);
-	else if (func == 3)
-		checker_swap_ss(afront, bfront);
-	else if (func == 4)
-		checker_push_a(afront, bfront);
-	else if (func == 5)
-		checker_push_b(afront, bfront);
-	else if (func == 6)
-		checker_rotate_ra(afront, bfront);
-	else if (func == 7)
-		checker_rotate_rb(afront, bfront);
-	else if (func == 8)
-		checker_rotate_rr(afront, bfront);
-	else if (func == 9)
-		checker_rotate_rra(afront, bfront);
-	else if (func == 10)
-		checker_rotate_rrb(afront, bfront);
-	else if (func == 11)
-		checker_rotate_rrr(afront, bfront);
 	return (true);
 }
 
-bool	read_stdin(t_node **afront, t_node **bfront)
+bool	read_stdin(t_node **sa, t_node **sb)
 {
-	size_t	func;
-	size_t	len;
-	char	*display;
+	char			*display;
 
-	len = 1;
-	while (len)
+	while (true)
 	{
 		display = get_next_line(0);
-		len = ft_strlen(display);
-		func = detect_function(display);
-		free(display);
-		if (!checker_operation_manage(afront, bfront, func))
+		if (!display)
+			return (true);
+		if (!checker_operation_manage(sa, sb, display))
 			return (false);
+		free(display);
 	}
 	return (true);
 }
 
-int	judge(t_node *afront, t_node *bfront)
+int	judge(t_node *sa, t_node *sb)
 {
 	unsigned int	index;
 	unsigned int	max;
 	t_node			*tmp;
 
-	if (bfront)
+	if (sb)
 		return (write(1, "KO\n", 3));
-	if (1 != afront->index)
+	if (1 != sa->i)
 		return (write(1, "KO\n", 3));
-	tmp = afront->after;
-	max = ft_listsize(afront);
+	tmp = sa->n;
+	max = ft_listsize(sa);
 	index = 2;
 	while (index <= max)
 	{
-		if (tmp->index != index)
+		if (tmp->i != index)
 			return (write(1, "KO\n", 3));
 		index++;
-		tmp = tmp->after;
+		tmp = tmp->n;
 	}
 	return (write(1, "OK\n", 3));
 }
 
-//#include <stdio.h>
+int	main(int argc, char **argv)
+{
+	t_node		*sa;
+	t_node		*sb;
 
-//void	print_stack(char c, t_node *front)
-//{
-//	t_node	*tmp;
-
-//	if (!front)
-//	{
-//		printf("%c size: %u\n", c, ft_listsize(front));
-//		printf("list: None\n");
-//		return ;
-//	}
-//	tmp = front;
-//	printf("%c size:  %u\n", c, ft_listsize(front));
-//	printf("list:  %3d,", tmp->value);
-//	tmp = tmp->after;
-//	while (tmp != front)
-//	{
-//		printf("%3d,", tmp->value);
-//		tmp = tmp->after;
-//	}
-//	printf("\n\n");
-//}
-
-//int	main(int argc, char **argv)
-//{
-//	t_node		*afront;
-//	t_node		*bfront;
-
-//	afront = NULL;
-//	bfront = NULL;
-//	if (argc == 2)
-//		afront = make_value_argone(&argv[1], afront);
-//	else
-//		afront = make_value_multiarg(argc, argv, afront);
-//	afront = make_index(afront);
-//	if (!afront)
-//		return (write(1, "Error\n", 6));
-//	if (!read_stdin(&afront, &bfront))
-//		return (write(1, "Error\n", 6));
-//	judge(afront, bfront);
-//	(void)argc;
-//	(void)argv;
-//}
+	sa = NULL;
+	sb = NULL;
+	if (argc == 2)
+		sa = make_value_argone(&argv[1], sa);
+	else
+		sa = make_value_multiarg(argc, argv, sa);
+	sa = make_index(sa);
+	if (!sa)
+		return (write(2, "Error\n", 6));
+	if (!read_stdin(&sa, &sb))
+		return (write(2, "Error\n", 6));
+	judge(sa, sb);
+	(void)argc;
+	(void)argv;
+}

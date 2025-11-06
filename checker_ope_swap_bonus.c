@@ -6,33 +6,33 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 07:29:53 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/30 23:30:18 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/04 14:24:06 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker_push_swap_bonus.h"
 #include "push_swap.h"
 
-static t_node	*swap_ab_module(t_node *front)
+static t_node	*swap_ab_module(t_node *stk)
 {
-	t_node	*zero;
-	t_node	*second;
-	t_node	*third;
+	t_node	*s0;
+	t_node	*s2;
+	t_node	*s3;
 
-	if (!front)
+	if (!stk)
 		return (NULL);
-	if (ft_listsize(front) <= 2)
-		return (front->after);
-	zero = front->before;
-	second = front->after;
-	third = second->after;
-	front->before = second;
-	front->after = third;
-	second->before = zero;
-	second->after = front;
-	zero->after = second;
-	third->before = front;
-	return (second);
+	if (ft_listsize(stk) <= 2)
+		return (stk->n);
+	s0 = stk->b;
+	s2 = stk->n;
+	s3 = s2->n;
+	stk->b = s2;
+	stk->n = s3;
+	s2->b = s0;
+	s2->n = stk;
+	s0->n = s2;
+	s3->b = stk;
+	return (s2);
 }
 
 /* This is    swap_ab_module     tester */
@@ -41,128 +41,69 @@ static t_node	*swap_ab_module(t_node *front)
 
 //int	main(int argc, char **argv)
 //{
-//	t_node		*front;
+//	t_node		*stk;
 //	t_node		*tmp;
 
-//	front = NULL;
-//	front = make_node(argc, argv, front);
-//	if (!front)
+//	stk = NULL;
+//	stk = make_node(argc, argv, stk);
+//	if (!stk)
 //		return (printf("Error"));
-//	tmp = front;
-//	printf("size:   %u\n", ft_listsize(front));
-//	printf("front:  %d\n\n", front->value);
+//	tmp = stk;
+//	printf("size:   %u\n", ft_listsize(stk));
+//	printf("stk:  %d\n\n", stk->value);
 //	printf("value, index\n");
 //	printf(" %-4d, %-5u\n", tmp->value, tmp->index);
-//	tmp = tmp->after;
-//	while (tmp != front)
+//	tmp = tmp->n;
+//	while (tmp != stk)
 //	{
 //		printf(" %-4d, %-5u\n", tmp->value, tmp->index);
-//		tmp = tmp->after;
+//		tmp = tmp->n;
 //	}
-//	front = swap_ab_module(front);
-//	printf("\n\n\nsize:   %u\n", ft_listsize(front));
-//	printf("front:  %d\n\n", front->value);
+//	stk = swap_ab_module(stk);
+//	printf("\n\n\nsize:   %u\n", ft_listsize(stk));
+//	printf("stk:  %d\n\n", stk->value);
 //	printf("value, index\n");
-//	tmp = front;
+//	tmp = stk;
 //	printf(" %-4d, %-5u\n", tmp->value, tmp->index);
-//	tmp = tmp->after;
-//	while (tmp != front)
+//	tmp = tmp->n;
+//	while (tmp != stk)
 //	{
 //		printf(" %-4d, %-5u\n", tmp->value, tmp->index);
-//		tmp = tmp->after;
+//		tmp = tmp->n;
 //	}
 //}
 
-void	checker_swap_sa(t_node **afront, t_node **bfront)
+void	checker_swap_sa(t_node **sa, t_node **sb)
 {
-	*afront = swap_ab_module(*afront);
-	(void)afront;
-	(void)bfront;
+	if (!*sa)
+	{
+		write(2, "opeError\n", 9);
+		return ;
+	}
+	*sa = swap_ab_module(*sa);
+	(void)sa;
+	(void)sb;
 }
 
-void	checker_swap_sb(t_node **afront, t_node **bfront)
+void	checker_swap_sb(t_node **sa, t_node **sb)
 {
-	*bfront = swap_ab_module(*bfront);
-	(void)afront;
-	(void)bfront;
+	if (!*sb)
+	{
+		write(2, "opeError\n", 9);
+		return ;
+	}
+	*sb = swap_ab_module(*sb);
+	(void)sa;
+	(void)sb;
 }
 
-void	checker_swap_ss(t_node **afront, t_node **bfront)
+void	checker_swap_ss(t_node **sa, t_node **sb)
 {
-	*afront = swap_ab_module(*afront);
-	*bfront = swap_ab_module(*bfront);
+	if (!*sa && !*sb)
+	{
+		write(2, "opeError\n", 9);
+		return ;
+	}
+	*sa = swap_ab_module(*sa);
+	*sb = swap_ab_module(*sb);
 }
-
-/* This is    swap_ss     tester */
-
-//int	main(void)
-//{
-//	t_node		*afront;
-//	t_node		*bfront;
-//	t_node		*atmp;
-//	t_node		*btmp;
-//	char		*str1;
-//	char		*str2;
-
-//	afront = NULL;
-//	bfront = NULL;
-//	str1 = "123 456 789";
-//	str2 = NULL;
-//	afront = make_value_argone(&str1, afront);
-//	afront = make_index(afront);
-//	bfront = make_value_argone(&str2, bfront);
-//	bfront = make_index(bfront);
-//	if (!afront || !bfront)
-//		return (printf("Error"));
-//	atmp = afront;
-
-//	printf("aaaaaaaaa\nsize:   %u\n", ft_listsize(afront));
-//	printf("afront:  %d\n", afront->value);
-//	printf("value, index\n");
-//	printf(" %-4d, %-5u\n", atmp->value, atmp->index);
-//	atmp = atmp->after;
-//	while (atmp != afront)
-//	{
-//		printf(" %-4d, %-5u\n", atmp->value, atmp->index);
-//		atmp = atmp->after;
-//	}
-
-//	printf("aaaaaaaaa\nbbbbbbbbb\nsize:   %u\n", ft_listsize(bfront));
-//	printf("bfront:  %d\n", bfront->value);
-//	printf("value, index\n");
-//	btmp = bfront;
-//	printf(" %-4d, %-5u\n", btmp->value, btmp->index);
-//	btmp = btmp->after;
-//	while (btmp != bfront)
-//	{
-//		printf(" %-4d, %-5u\n", btmp->value, btmp->index);
-//		btmp = btmp->after;
-//	}
-
-//	swap_ss(&afront, &bfront);
-
-//	atmp = afront;
-//	printf("bbbbbbbbb\n\naaaaaaaaa\nsize:   %u\n", ft_listsize(afront));
-//	printf("afront:  %d\n", afront->value);
-//	printf("value, index\n");
-//	printf(" %-4d, %-5u\n", atmp->value, atmp->index);
-//	atmp = atmp->after;
-//	while (atmp != afront)
-//	{
-//		printf(" %-4d, %-5u\n", atmp->value, atmp->index);
-//		atmp = atmp->after;
-//	}
-
-//	printf("aaaaaaaaa\nbbbbbbbbb\nsize:   %u\n", ft_listsize(bfront));
-//	printf("bfront:  %d\n", bfront->value);
-//	printf("value, index\n");
-//	btmp = bfront;
-//	printf(" %-4d, %-5u\n", btmp->value, btmp->index);
-//	btmp = btmp->after;
-//	while (btmp != bfront)
-//	{
-//		printf(" %-4d, %-5u\n", btmp->value, btmp->index);
-//		btmp = btmp->after;
-//	}
-//	printf("bbbbbbbbb\n");
-//}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_makenode.c                                    :+:      :+:    :+:   */
+/*   util_make_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 05:54:57 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/31 16:18:09 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:08:04 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ t_node	*ft_listnew(int value)
 	newlist = (t_node *)malloc(sizeof(t_node));
 	if (newlist == NULL)
 		return (NULL);
-	newlist->value = value;
-	newlist->index = 0;
-	newlist->after = newlist;
-	newlist->before = newlist;
+	newlist->v = value;
+	newlist->i = 0;
+	newlist->lis = false;
+	newlist->n = newlist;
+	newlist->b = newlist;
 	return (newlist);
 }
 
@@ -33,28 +34,32 @@ t_node	*ft_listadd_back(t_node *lst, t_node *new)
 
 	if (!lst)
 		return (new);
-	last = lst->before;
-	new->after = lst;
-	new->before = last;
-	last->after = new;
-	lst->before = new;
+	last = lst->b;
+	new->n = lst;
+	new->b = last;
+	last->n = new;
+	lst->b = new;
 	return (lst);
 }
 
 void	ft_listclear(t_node *lst)
 {
-	t_node	*temp;
+	t_node	*tmp;
+	int		size;
+	int		count;
 
 	if (!lst)
 		return ;
-	temp = (lst->after);
-	while (true)
+	size = ft_listsize(lst);
+	count = 0;
+	tmp = lst;
+	while (count < size)
 	{
+		tmp = tmp->n;
 		free(lst);
-		lst = temp;
-		if (lst == NULL)
-			return ;
-		temp = (lst)->after;
+		lst = NULL;
+		lst = tmp;
+		count++;
 	}
 }
 
@@ -65,11 +70,11 @@ unsigned int	ft_listsize(t_node *lst)
 
 	if (!lst)
 		return (0);
-	tmp = lst->after;
+	tmp = lst->n;
 	count = 1;
 	while (tmp && tmp != lst)
 	{
-		tmp = tmp->after;
+		tmp = tmp->n;
 		count++;
 	}
 	return (count);
@@ -81,20 +86,17 @@ unsigned int	locate_to_index(t_node *lst, int locate)
 	int		count;
 
 	if (!lst)
-	{
-		write(1, "OpeError\n", 9);
 		return (INT_MAX);
-	}
 	if (locate == 0)
-		return (lst->index);
+		return (lst->i);
 	if (locate < 0)
 		locate = ft_listsize(lst) + locate;
 	count = 0;
 	tmp = lst;
 	while (count < locate)
 	{
-		tmp = tmp->after;
+		tmp = tmp->n;
 		count++;
 	}
-	return (tmp->index);
+	return (tmp->i);
 }
