@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 07:29:53 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 14:24:06 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:28:24 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,9 @@ static t_node	*swap_ab_module(t_node *stk)
 void	checker_swap_sa(t_node **sa, t_node **sb)
 {
 	if (!*sa)
-	{
-		write(2, "opeError\n", 9);
-		return ;
-	}
-	*sa = swap_ab_module(*sa);
+		;
+	else
+		*sa = swap_ab_module(*sa);
 	(void)sa;
 	(void)sb;
 }
@@ -88,11 +86,9 @@ void	checker_swap_sa(t_node **sa, t_node **sb)
 void	checker_swap_sb(t_node **sa, t_node **sb)
 {
 	if (!*sb)
-	{
-		write(2, "opeError\n", 9);
-		return ;
-	}
-	*sb = swap_ab_module(*sb);
+		;
+	else
+		*sb = swap_ab_module(*sb);
 	(void)sa;
 	(void)sb;
 }
@@ -100,10 +96,14 @@ void	checker_swap_sb(t_node **sa, t_node **sb)
 void	checker_swap_ss(t_node **sa, t_node **sb)
 {
 	if (!*sa && !*sb)
+		;
+	else if (!*sa)
+		*sb = swap_ab_module(*sb);
+	else if (!*sb)
+		*sa = swap_ab_module(*sa);
+	else
 	{
-		write(2, "opeError\n", 9);
-		return ;
+		*sa = swap_ab_module(*sa);
+		*sb = swap_ab_module(*sb);
 	}
-	*sa = swap_ab_module(*sa);
-	*sb = swap_ab_module(*sb);
 }

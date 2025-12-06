@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:11:09 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 14:23:05 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:40:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,22 @@ int	main(int argc, char **argv)
 
 	sa = NULL;
 	sb = NULL;
-	if (argc == 2)
-		sa = make_value_argone(&argv[1], sa);
-	else
-		sa = make_value_multiarg(argc, argv, sa);
-	sa = make_index(sa);
+	if (argc < 2)
+		return (0);
+	sa = make_node(argc, argv, sa);
 	if (!sa)
-		return (write(2, "Error\n", 6));
+	{
+		ft_listclear(sa);
+		write(2, "Error\n", 7);
+		return (1);
+	}
 	if (!read_stdin(&sa, &sb))
-		return (write(2, "Error\n", 6));
+	{
+		ft_listclear(sa);
+		write(2, "Error\n", 7);
+		return (1);
+	}
 	judge(sa, sb);
-	(void)argc;
-	(void)argv;
+	ft_listclear(sa);
+	ft_listclear(sb);
 }

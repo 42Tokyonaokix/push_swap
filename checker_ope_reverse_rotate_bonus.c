@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 14:41:25 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 14:23:22 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 20:21:10 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,44 +16,40 @@
 void	checker_rotate_rra(t_node **sa, t_node **sb)
 {
 	if (!*sa)
-	{
-		write(2, "opeError\n", 9);
-		return ;
-	}
-	(*sa) = (*sa)->b;
+		;
+	else
+		(*sa) = (*sa)->b;
 	(void)sb;
 }
 
 void	checker_rotate_rrb(t_node **sa, t_node **sb)
 {
 	if (!*sb)
-	{
-		write(2, "opeError\n", 9);
-		return ;
-	}
-	(*sb) = (*sb)->b;
+		;
+	else
+		(*sb) = (*sb)->b;
 	(void)sa;
 }
 
 void	checker_rotate_rrr(t_node **sa, t_node **sb)
 {
 	if (!*sa && !*sb)
-	{
-		write(2, "opeError\n", 9);
-		return ;
-	}
-	if (!*sa)
+		;
+	else if (!*sa)
 	{
 		(*sb) = (*sb)->b;
 		return ;
 	}
-	if (!*sb)
+	else if (!*sb)
 	{
 		(*sa) = (*sa)->b;
 		return ;
 	}
-	(*sa) = (*sa)->b;
-	(*sb) = (*sb)->b;
+	else
+	{
+		(*sa) = (*sa)->b;
+		(*sb) = (*sb)->b;
+	}
 }
 
 //#include <stdio.h>

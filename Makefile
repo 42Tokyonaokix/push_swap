@@ -19,6 +19,7 @@ SRCS = util_make_node.c\
 	   util_perth.c\
 	   util_find_chunk.c\
 	   alg_moriP_sort.c\
+	   alg_sort3.c\
 	   list_make_node.c\
 	   ope_push.c\
 	   ope_reverse_rotate.c\

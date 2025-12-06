@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 15:25:09 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 17:15:56 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:44:54 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int				reverse_insert(t_node **sa, t_node **sb);
 int				whole_reverse(t_node **sa, t_node **sb);
 int				is_sorted(t_node *sa);
 //void			print_stack(t_node *sa);
+
+int				sort3(t_node **sa, t_node **sb);
+int				sort5(t_node **sa, t_node **sb);
 
 int				turk_insert_module(t_node **sa, t_node **sb, int na, int nb);
 int				find_chunk(t_node *sa, unsigned int start, unsigned int end);

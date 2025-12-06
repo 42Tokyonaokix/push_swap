@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_atoi.c                                        :+:      :+:    :+:   */
+/*   util_perth.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 05:48:08 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/01 22:06:48 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/05 21:08:31 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ long long	ft_atol(char **str)
 	while ('0' <= **str && **str <= '9')
 	{
 		num = num * 10 + (**str - '0');
-		if (INT_MIN > num || INT_MAX < num)
+		if ((sign > 0 && INT_MAX < num) || (sign < 0 && INT_MAX < num - 1))
 			return (LONG_MIN);
 		(*str)++;
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   checker_gnl_utils_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 07:34:17 by natakaha          #+#    #+#             */
-/*   Updated: 2025/10/30 20:38:55 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:51:29 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (ft_strdup(s1));
 	total_len = ft_strchr_len(s1, '\0') + ft_strchr_len(s2, '\0') + 1;
 	joinstr = (char *)malloc(sizeof(char) * total_len);
-	if (joinstr == NULL)
+	if (!joinstr)
 		return (NULL);
 	joinstr = allocate_char(s1, s2, joinstr);
 	return (joinstr);
@@ -86,7 +86,7 @@ char	*ft_strndup(const char *str, size_t n)
 	if (n > (size_t)ft_strchr_len(str, '\0'))
 		n = ft_strchr_len(str, '\0');
 	dest = (char *)malloc(sizeof(char) * (n + 1));
-	if (dest == NULL)
+	if (!dest)
 		return (NULL);
 	count = 0;
 	while (count < n)
@@ -108,7 +108,7 @@ char	*ft_strdup(const char *str)
 		return (NULL);
 	len = ft_strchr_len(str, '\0');
 	dest = (char *)malloc(sizeof(char) * (len + 1));
-	if (dest == NULL)
+	if (!dest)
 		return (NULL);
 	count = 0;
 	while (str[count])

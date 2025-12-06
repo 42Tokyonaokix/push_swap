@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 15:22:55 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 17:36:25 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:49:44 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_node	*make_value_argone(char **arg, t_node *stk)
 		if (tmp_v > INT_MAX || tmp_v < INT_MIN)
 			return (NULL);
 		tmp_n = ft_listnew(tmp_v);
+		if (!tmp_n)
+			return (ft_listclear(stk), NULL);
 		if (!stk)
 			stk = tmp_n;
 		else
@@ -43,11 +45,13 @@ t_node	*make_value_multiarg(int argc, char **argv, t_node *stk)
 	while (i < argc)
 	{
 		if (count_number(argv[i]) != 1)
-			return (NULL);
+			return (ft_listclear(stk), NULL);
 		tmp_v = ft_atol(&argv[i]);
 		if (tmp_v > INT_MAX || tmp_v < INT_MIN)
 			return (NULL);
 		tmp_n = ft_listnew(tmp_v);
+		if (!tmp_n)
+			return (ft_listclear(stk), NULL);
 		if (!stk)
 			stk = tmp_n;
 		else

@@ -6,7 +6,7 @@
 /*   By: natakaha <natakaha@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 05:54:57 by natakaha          #+#    #+#             */
-/*   Updated: 2025/11/04 17:08:04 by natakaha         ###   ########.fr       */
+/*   Updated: 2025/11/07 21:51:37 by natakaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*ft_listnew(int value)
 	t_node	*newlist;
 
 	newlist = (t_node *)malloc(sizeof(t_node));
-	if (newlist == NULL)
+	if (!newlist)
 		return (NULL);
 	newlist->v = value;
 	newlist->i = 0;
